@@ -5,6 +5,7 @@ import userRouter from "./routes/user_routes.js";
 import blogRouter from "./routes/blog_routes.js";
 import errorHandler from "./Utils/error_middleware.js";
 import CustomeError from "./Utils/cutsom_error.js";
+import connectDb from "./db/config.js";
 
 
 
@@ -42,6 +43,13 @@ app.use("/api/v1/blog", blogRouter);
 // error handling
 app.use(errorHandler);
 
-app.listen(port,()=>{
-   console.log(`server started on ${port}`);
+connectDb().then(()=>{
+  app.listen(port, () => {
+      console.log("server Started", port);
+    });
+  
+}).catch((err)=>{
+
+  console.log("Server unable to connect with Db");
+
 })
